@@ -42,6 +42,9 @@
                     },
                     headers:{
                         token:'abcd'
+                    },
+                    before: function () {
+                        console.log("before init.");
                     }
                 }).then(function(res){
                     this.msg = res.data;
@@ -55,6 +58,9 @@
                 },{
                     headers:{
                         access_token:"abcd"
+                    },
+                    before: function () {
+                        console.log("before init.");
                     }
                 }).then(function(res){
                     this.msg = res.data;
