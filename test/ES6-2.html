@@ -9,36 +9,42 @@
   ES6-2Demo演示
 </h2>
 <script>
-// 1.函数的Rest参数(...m)
-function sum(x,y,z){
-  let total = 0;
-  if(x)total+=x;
-  if(y)total+=y;
-  if(z)total+=z;
+// 1.函数的默认值
+function sum(num1,num2=3){
+    return num1+num2;
+}
+console.log(sum(7));  // 10
 
-  console.log(`total:${total}`)
+// 2.函数的Rest参数(...m)
+function sum(x,y,z){
+    let total = 0;
+    if(x)total+=x;
+    if(y)total+=y;
+    if(z)total+=z;
+
+    console.log(`total:${total}`)
 }
 sum(5,"",9);  // 14
 
 function sum2(...m){
-  let total = 0;
-  for(var i of m){   // ES6-for循坏
-    total += i;
-  }
-  console.log(`total:${total}`)
+    let total = 0;
+    for(var i of m){   // ES6-for循坏
+        total += i;
+    }
+    console.log(`total:${total}`)
 }
 sum2(4,8,9,10); // 31
 
 let sum3 = (...m)=>{
-  let total = 0;
-  for(var i of m){
-    total += i;
-  }
-  console.log(`total:${total}`)
+    let total = 0;
+    for(var i of m){
+        total += i;
+    }
+    console.log(`total:${total}`)
 };
 sum3(4,8,9,10);  // 31
 
-// 2.函数的扩展(...)
+// 3.函数的扩展(...)
 var [x,y] = [4,8]
 
 console.log(...[4,8]);  // 4 8

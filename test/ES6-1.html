@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6-Demo演示</title>
+    <style type="text/css">
+        .log{background-color: black;color:white;padding:10px 20px;}
+    </style>
+</head>
+<body>
+<h2>ES6-Demo演示</h2>
+<div id="log" class="log"></div>
+<script>
+var str = `
+    显示的文字：
+    console.log("a"+a);
+    var a = 1;
+    console.log("b"+b);
+    let b = 2;
+    function user(){
+      var a = 1;
+    }
+
+    console.log("a"+a);`;
+    printLog(str);
+function printLog(str){
+    document.getElementById("log").innerText = str;
+}
+
+// 数组的解构
+var [a,b] = [3,8,10]; // 数组的分解
+console.log(`a:${a},b:${b}`)   // a:3,b:8
+
+var [x,y,z] = "Vue"; // 字符串的分解
+console.log(`x:${x},y:${y},z:${z}`);  // x:V,y:u,z:e
+
+var {n,m} = {m:10,n:20}; // 对象的解构,对key进行拆分
+console.log(`m:${m},n:${n}`);  // m:10,n:20
+
+function sum([x,y]){
+    return x+y;
+}
+var total = sum([2,8]);
+console.log(`total:${total}`);  // total:10
+
+</script>
+</body>
+</html>
