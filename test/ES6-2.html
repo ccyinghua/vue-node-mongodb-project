@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6-2Demo演示</title>
+</head>
+<body>
+<h2>
+  ES6-2Demo演示
+</h2>
+<script>
+// 1.函数的Rest参数(...m)
+function sum(x,y,z){
+  let total = 0;
+  if(x)total+=x;
+  if(y)total+=y;
+  if(z)total+=z;
+
+  console.log(`total:${total}`)
+}
+sum(5,"",9);  // 14
+
+function sum2(...m){
+  let total = 0;
+  for(var i of m){   // ES6-for循坏
+    total += i;
+  }
+  console.log(`total:${total}`)
+}
+sum2(4,8,9,10); // 31
+
+let sum3 = (...m)=>{
+  let total = 0;
+  for(var i of m){
+    total += i;
+  }
+  console.log(`total:${total}`)
+};
+sum3(4,8,9,10);  // 31
+
+// 2.函数的扩展(...)
+var [x,y] = [4,8]
+
+console.log(...[4,8]);  // 4 8
+
+let arr1 = [1,3];let arr2 = [4,8];
+console.log("concat:"+arr1.concat(arr2));
+
+[...arr1,...arr2]
+console.log([...arr1,...arr2])  // [1, 3, 4, 8]
+
+var [x,...y] = [4,8,10,30]
+console.log(x)  // 4
+console.log(y)  // [8, 10, 30]
+
+let [a,b,c] = "ES6";
+console.log(a) // E
+console.log(b) // S
+console.log(c) // 6
+
+let xy = [...'ES6'];
+console.log(xy) // ["E", "S", "6"]
+
+</script>
+</body>
+</html>
