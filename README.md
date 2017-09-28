@@ -2,9 +2,9 @@
 
 > A Vue.js project
 
-## Build Setup
+### Build Setup
 
-``` bash
+```javascript
 # install dependencies
 npm install
 
@@ -16,9 +16,23 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
+
 ```
+> 文件夹列表
+
+- resource文件夹：静态资源文件 
 - test文件夹：vue-resource,axios,ES6,ES6-promise基础用法
+- mock文件夹：放入json数据
+
+> 拆分组件分布
+
+- GoodList.vue
+    - NavHeader.vue-头部组件
+    - NavFooter.vue-底部组件
+    - NavBread.vue-面包屑组件
+
+> Markdown说明文件
+
+GoodsList.md - 商品列表模块实现GoodsList.vue
 
 未完待续......
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
