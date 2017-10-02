@@ -12,25 +12,16 @@
               <span class="sortby">Sort by:</span>
               <a href="javascript:void(0)" class="default cur">Default</a>
               <a href="javascript:void(0)" class="price">Price <svg class="icon icon-arrow-short"><use xlink:href="#icon-arrow-short"></use></svg></a>
-              <a href="javascript:void(0)" class="filterby stopPop">Filter by</a>
+              <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
             </div>
             <div class="accessory-result">
               <!-- filter -->
-              <div class="filter stopPop" id="filter">
+              <div class="filter stopPop" id="filter" :class="{'filterby-show':filterBy}">
                 <dl class="filter-price">
                   <dt>Price:</dt>
-                  <dd><a href="javascript:void(0)">All</a></dd>
-                  <dd>
-                    <a href="javascript:void(0)">0 - 100</a>
-                  </dd>
-                  <dd>
-                    <a href="javascript:void(0)">100 - 500</a>
-                  </dd>
-                  <dd>
-                    <a href="javascript:void(0)">500 - 1000</a>
-                  </dd>
-                  <dd>
-                    <a href="javascript:void(0)">1000 - 2000</a>
+                  <dd><a href="javascript:void(0)" :class="{'cur':priceChecked=='all'}" @click="setPriceFilter('all')">All</a></dd>
+                  <dd v-for="(price,index) in priceFilter">
+                    <a href="javascript:void(0)" :class="{'cur':priceChecked==index}" @click="setPriceFilter(index)">{{price.startPrice}} - {{price.endPrice}}</a>
                   </dd>
                 </dl>
               </div>
@@ -41,7 +32,10 @@
                   <ul>
                     <li v-for="(item,index) in goodsList">
                       <div class="pic">
-                        <a href="#"><img :src="'/static/'+item.prodcutImg" alt=""></a>
+                        <a href="#">
+                            <!-- <img :src="'/static/'+item.prodcutImg" alt=""> -->
+                            <img v-lazy="'/static/'+item.prodcutImg" alt="">
+                        </a>
                       </div>
                       <div class="main">
                         <div class="name">{{item.productName}}</div>
@@ -57,6 +51,8 @@
             </div>
           </div>
         </div>
+        <!-- 遮罩 -->
+        <div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
         <!-- 底部组件 -->
         <nav-footer></nav-footer>
     </div>
@@ -71,7 +67,28 @@ import axios from 'axios'
 export default {
     data(){
         return {
-            goodsList:[]   // 商品列表
+            goodsList:[],   // 商品列表
+            priceFilter:[   // 价格区间数组
+                {
+                    startPrice:'0.00',
+                    endPrice:'100.00'
+                },
+                {
+                    startPrice:'100.00',
+                    endPrice:'500.00'
+                },
+                {
+                    startPrice:'500.00',
+                    endPrice:'1000.00'
+                },
+                {
+                    startPrice:'1000.00',
+                    endPrice:'5000.00'
+                }
+            ],
+            priceChecked:'all',   // 选中的价格区间
+            filterBy:false,     // 控制价格菜单的显示
+            overLayFlag:false   // 遮罩的显示
         }
     },
     components:{
@@ -88,6 +105,18 @@ export default {
                 var _res = res.data;
                 this.goodsList = _res.result;
             })
+        },
+        setPriceFilter(index){   // 点击价格
+            this.priceChecked = index;
+            closePop();
+        },
+        showFilterPop(){     // 点击filterBy出现价格菜单和遮罩
+            this.filterBy = true;
+            this.overLayFlag = true;
+        },
+        closePop(){    // 关闭价格菜单和遮罩
+            this.filterBy = false;
+            this.overLayFlag = false;
         }
     }
 }
