@@ -18,6 +18,20 @@ npm run build
 npm run build --report
 
 ```
+### 构建项目
+
+```
+vue init webpack vue-node-mongodb-project
+
+cnpm install
+npm run dev
+
+cnpm install vue-resource --save
+cnpm install axios --save
+
+cnpm install vue-lazyload --save   // 图片加载
+
+```
 > 文件夹列表
 
 - resource文件夹：静态资源文件 

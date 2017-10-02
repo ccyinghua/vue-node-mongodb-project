@@ -65,10 +65,116 @@ methods:{
 }
 
 ```
+> ##### 价格区间菜单实现
+
+```javascript
+data(){
+    return {
+        priceFilter:[   // 价格区间数组
+            {
+                startPrice:'0.00',
+                endPrice:'100.00'
+            },
+            {
+                startPrice:'100.00',
+                endPrice:'500.00'
+            },
+            {
+                startPrice:'500.00',
+                endPrice:'1000.00'
+            },
+            {
+                startPrice:'1000.00',
+                endPrice:'5000.00'
+            }
+        ],
+        priceChecked:'all'   // 选中的价格区间
+    }
+},
+<div class="filter stopPop" id="filter">
+    <dl class="filter-price">
+        <dt>Price:</dt>
+        <dd><a href="javascript:void(0)" :class="{'cur':priceChecked=='all'}" @click="priceChecked='all'">All</a></dd>
+        <dd v-for="(price,index) in priceFilter">
+            <a href="javascript:void(0)" :class="{'cur':priceChecked==index}" @click="priceChecked=index">{{price.startPrice}} - {{price.endPrice}}</a>
+        </dd>
+    </dl>
+</div>
+
+```
+考虑到是响应式布局，移动端时点击 Filter by 价格菜单切换，类名"filterby-show"控制价格区间菜单的显示
+
+```
+<a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
+<!-- 价格box -->
+<div class="filter stopPop" id="filter" :class="{'filterby-show':filterBy}">
+    <dl class="filter-price">
+        <dt>Price:</dt>
+        <dd><a href="javascript:void(0)" :class="{'cur':priceChecked=='all'}" @click="setPriceFilter('all')">All</a></dd>
+        <dd v-for="(price,index) in priceFilter">
+            <a href="javascript:void(0)" :class="{'cur':priceChecked==index}" @click="setPriceFilter(index)">{{price.startPrice}} - {{price.endPrice}}</a>
+        </dd>
+    </dl>
+</div>
+
+<!-- 遮罩 -->
+<div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
+```
+
+```javascript
+data(){
+    return {
+        priceFilter:[   // 价格区间数组
+            {
+                startPrice:'0.00',
+                endPrice:'100.00'
+            },
+            {
+                startPrice:'100.00',
+                endPrice:'500.00'
+            },
+            {
+                startPrice:'500.00',
+                endPrice:'1000.00'
+            },
+            {
+                startPrice:'1000.00',
+                endPrice:'5000.00'
+            }
+        ],
+        priceChecked:'all',   // 选中的价格区间
+        filterBy:false,     // 控制价格菜单的显示
+        overLayFlag:false   // 遮罩的显示
+    }
+},
+methods:{
+    setPriceFilter(index){   // 点击价格
+        this.priceChecked = index;
+        closePop();
+    },
+    showFilterPop(){     // 点击filterBy出现价格菜单和遮罩
+        this.filterBy = true;
+        this.overLayFlag = true;
+    },
+    closePop(){   // 关闭价格菜单和遮罩
+        this.filterBy = false;
+        this.overLayFlag = false;
+    }
+}
+```
+> ##### 图片懒加载  https://www.npmjs.com/package/vue-lazyload
 
 
+```
+npm install vue-lazyload --save
 
+// main.js
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+    loading:"/static/loading-svg/loading-bars.svg"
+})
 
+```
 
 
 
