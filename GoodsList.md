@@ -7,7 +7,7 @@ slot插槽使用
 因为每个页面的名字不一样，所以面包屑不是固定的，在名字的位置留一个插槽，由父组件提供内容。
 
 
-```html
+```javascript
 子组件NavBread.vue：
 <template>
     <div class="nav-breadcrumb-wrap">
@@ -30,7 +30,7 @@ import NavBread from '@/components/NavBread.vue'
 ```
 > ##### mock模拟json数据
 
-```
+```javascript
 //dev-server.js
 为什么可以用localhost：8080访问？
 vue内置的一套express框架，基于nodejs的服务。
@@ -45,7 +45,7 @@ app.use(router); // 用路由
 
 ```
 
-```
+```javascript
 // goodsList.vue
 data(){
     return {
