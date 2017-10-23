@@ -104,7 +104,7 @@ data(){
 ```
 考虑到是响应式布局，移动端时点击 Filter by 价格菜单切换，类名"filterby-show"控制价格区间菜单的显示
 
-```
+```javascript
 <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
 <!-- 价格box -->
 <div class="filter stopPop" id="filter" :class="{'filterby-show':filterBy}">
