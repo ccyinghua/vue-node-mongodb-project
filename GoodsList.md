@@ -7,7 +7,7 @@ slot插槽使用
 因为每个页面的名字不一样，所以面包屑不是固定的，在名字的位置留一个插槽，由父组件提供内容。
 
 
-```javascript
+```html
 子组件NavBread.vue：
 <template>
     <div class="nav-breadcrumb-wrap">
@@ -30,7 +30,7 @@ import NavBread from '@/components/NavBread.vue'
 ```
 > ##### mock模拟json数据
 
-```javascript
+```
 //dev-server.js
 为什么可以用localhost：8080访问？
 vue内置的一套express框架，基于nodejs的服务。
@@ -45,7 +45,7 @@ app.use(router); // 用路由
 
 ```
 
-```javascript
+```
 // goodsList.vue
 data(){
     return {
@@ -104,7 +104,7 @@ data(){
 ```
 考虑到是响应式布局，移动端时点击 Filter by 价格菜单切换，类名"filterby-show"控制价格区间菜单的显示
 
-```javascript
+```
 <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
 <!-- 价格box -->
 <div class="filter stopPop" id="filter" :class="{'filterby-show':filterBy}">
