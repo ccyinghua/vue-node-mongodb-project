@@ -1,4 +1,4 @@
-### GoodsList.vue-商品列表
+### GoodsList.vue-商品列表页模块实现
 
 > ##### 面包屑子组件NavBread.vue
 
@@ -30,7 +30,7 @@ import NavBread from '@/components/NavBread.vue'
 ```
 > ##### mock模拟json数据
 
-```
+```javascript
 //dev-server.js
 为什么可以用localhost：8080访问？
 vue内置的一套express框架，基于nodejs的服务。
@@ -45,7 +45,7 @@ app.use(router); // 用路由
 
 ```
 
-```
+```javascript
 // goodsList.vue
 data(){
     return {
@@ -104,7 +104,7 @@ data(){
 ```
 考虑到是响应式布局，移动端时点击 Filter by 价格菜单切换，类名"filterby-show"控制价格区间菜单的显示
 
-```
+```html
 <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
 <!-- 价格box -->
 <div class="filter stopPop" id="filter" :class="{'filterby-show':filterBy}">

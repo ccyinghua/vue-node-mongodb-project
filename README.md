@@ -35,6 +35,9 @@ cnpm install vue-lazyload --save   // 图片加载
 > 文件夹列表
 
 - resource文件夹：静态资源文件
+- server文件夹：nodeJs基础
+    - commonJs文件夹：commonJS规范-module.exports/exports 
+    - http.server.js：创建一个http server
 - test文件夹：vue-resource,axios,ES6,ES6-promise基础用法
 - mock文件夹：放入json数据
 
