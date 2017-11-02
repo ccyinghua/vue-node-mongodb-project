@@ -35,9 +35,7 @@ cnpm install vue-lazyload --save   // 图片加载
 > 文件夹列表
 
 - resource文件夹：静态资源文件
-- server文件夹：nodeJs基础
-    - commonJs文件夹：commonJS规范-module.exports/exports 
-    - http.server.js：创建一个http server
+- server文件夹：Express框架
 - test文件夹：vue-resource,axios,ES6,ES6-promise基础用法
 - mock文件夹：放入json数据
 
@@ -50,6 +48,9 @@ cnpm install vue-lazyload --save   // 图片加载
 
 > Markdown说明文件
 
-GoodsList.md - 商品列表模块实现GoodsList.vue
+[01-GoodsList.md - 商品列表模块实现GoodsList.vue](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/01-GoodsList.md)
+ <br/>
+[02-express.md - 搭建基于express框架运行环境](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/02-express.md)
+
 
 未完待续......
