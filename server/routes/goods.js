@@ -25,8 +25,9 @@ mongoose.connection.on("disconnected",function(){
 // 二级路由
 /* GET goods page. */
 router.get('/', function(req, res, next) {
-	res.send('hello,goods list');  // 测试，连接成功页面出现'hello,goods list'
-  
+	// res.send('hello,goods list');  // 测试路由，连接成功页面出现'hello,goods list'
+
+	// 连接成功之后，用model的good商品模型查询到数据库的goods集合。
 	Goods.find({},function(err, doc){  // Goods来自models/goods.js;导出的是mongoose的商品模型，可使用mongoose的API方法
 		if(err) {
 			res.json({
@@ -50,6 +51,6 @@ router.get('/', function(req, res, next) {
 module.exports = router;
 
 
-// 启动express，检查是否链接数据库成功
+// 启动express
 // node server/bin/www 或 pm2方式 或 webstorm 等
 // localhost:3000/goods/    // '/goods'是app.js中的一级路由，'/'是本页的二级路由
