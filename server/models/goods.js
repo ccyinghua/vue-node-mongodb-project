@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+// 定义一个Schema
 var produtSchema = new Schema({
 	'productId':String,   // 或者 'productId':{type:String}
 	'productName':String,

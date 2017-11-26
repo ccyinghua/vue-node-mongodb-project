@@ -20,7 +20,7 @@ npm run build --report
 ```
 ### 构建项目
 
-```
+```javascript
 vue init webpack vue-node-mongodb-project
 
 cnpm install
@@ -51,6 +51,8 @@ cnpm install vue-lazyload --save   // 图片加载
 [01-GoodsList.md - 商品列表模块实现GoodsList.vue](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/01-GoodsList.md)
  <br/>
 [02-express.md - 搭建基于express框架运行环境](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/02-express.md)
+ <br/>
+[03-GoodsListInterface.md - 基于Node.js开发商品列表接口](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/03-GoodsListInterface.md)
 
 
 未完待续......
