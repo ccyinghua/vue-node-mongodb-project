@@ -33,13 +33,13 @@
                     <li v-for="(item,index) in goodsList">
                       <div class="pic">
                         <a href="#">
-                            <!-- <img :src="'/static/'+item.prodcutImg" alt=""> -->
-                            <img v-lazy="'/static/'+item.prodcutImg" alt="">
+                            <!-- <img :src="'/static/'+item.productImage" alt=""> -->
+                            <img v-lazy="'/static/'+item.productImage" alt="">
                         </a>
                       </div>
                       <div class="main">
                         <div class="name">{{item.productName}}</div>
-                        <div class="price">{{item.prodcutPrice}}</div>
+                        <div class="price">{{item.salePrice}}</div>
                         <div class="btn-area">
                           <a href="javascript:;" class="btn btn--m">加入购物车</a>
                         </div>
@@ -102,8 +102,12 @@ export default {
     methods:{
         getGoodsList(){
             axios.get("/goods").then((res)=>{
-                var _res = res.data;
-                this.goodsList = _res.result;
+                var res = res.data;
+                if(res.status == "0"){
+                  this.goodsList = res.result.list;
+                }else{
+                  this.goodsList = [];
+                }
             })
         },
         setPriceFilter(index){   // 点击价格

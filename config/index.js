@@ -27,7 +27,11 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {     // 是一个代理插件，方便做转发，不需要跨域了。仅限于开发使用,开发完之后一定要跟服务器端连接在一起，否则需要nginx转发配置
+        '/goods':{  // 当我们访问'/goods'的时候，会转发到express的localhost:3000下面，访问3000下面的'/goods';
+            target:'http://localhost:3000'
+        }
+    },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

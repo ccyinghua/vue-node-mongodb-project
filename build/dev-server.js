@@ -22,12 +22,16 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 
-var router=express.Router()    // 拿到服务端的路由
+/* 有接口了就不用模拟数据了
+// mock模拟json数据
+var router = express.Router()    // 拿到服务端的路由
 var goodsData = require('../mock/goods.json')
 router.get("/goods",function(req,res,next){   // 定义了一个goods路由，req拿到请求的参数，res是response输出的一些东西，next
   res.json(goodsData)
 })
 app.use(router) // 用路由
+*/
+
 
 var compiler = webpack(webpackConfig)
 
