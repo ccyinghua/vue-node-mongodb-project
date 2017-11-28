@@ -31,6 +31,9 @@ cnpm install axios --save
 
 cnpm install vue-lazyload --save   // 图片加载
 
+* 构建express的一些安装 参考 02-express.md
+* 安装mongoose 参考03-GoodsListInterface.md
+
 ```
 > 文件夹列表
 
