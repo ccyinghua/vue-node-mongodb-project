@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+/* GoodsList商品列表页 */
 .accessory-list > ul:after {
   visibility: hidden;
   display: block;

@@ -198,7 +198,7 @@ axios.get("/goods").then((res)=>{
 
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/09/4.png?raw=true)
 
-![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/09/5.jpg?raw=true)
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/09/5.png?raw=true)
 
 
 

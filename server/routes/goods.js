@@ -27,8 +27,16 @@ mongoose.connection.on("disconnected",function(){
 router.get('/', function(req, res, next) {
 	// res.send('hello,goods list');  // 测试路由，连接成功页面出现'hello,goods list'
 
-	// 连接成功之后，用model的good商品模型查询到数据库的goods集合。
-	Goods.find({},function(err, doc){  // Goods来自models/goods.js;导出的是mongoose的商品模型，可使用mongoose的API方法
+	// express获取请求参数
+	let page = parseInt(req.param("page"));
+	let pageSize = parseInt(req.param("pageSize"));
+	let sort = req.param("sort");
+	let skip = (page-1)*pageSize; // 跳过的数据条数，(分页的公式).
+	let params = {};
+	let goodsModel = Goods.find(params).skip(skip).limit(pageSize); // 先查询所有，skip(skip)跳过skip条数据，limit(pageSize)一页多少条数据.
+	goodsModel.sort({'salePrice':sort}); // 对价格排序
+
+	goodsModel.exec(function(err, doc){
 		if(err) {
 			res.json({
 				status:'1',

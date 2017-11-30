@@ -31,8 +31,10 @@ cnpm install axios --save
 
 cnpm install vue-lazyload --save   // 图片加载
 
-* 构建express的一些安装 参考 02-express.md
-* 安装mongoose 参考03-GoodsListInterface.md
+* 构建express的一些安装 // 参考 02-express.md
+* 安装mongoose // 参考03-GoodsListInterface.md
+
+* cnpm install vue-infinite-scroll --save  // 安装滚动加载插件  04-pagingAndSort.md
 
 ```
 > 文件夹列表
@@ -56,6 +58,8 @@ cnpm install vue-lazyload --save   // 图片加载
 [02-express.md - 搭建基于express框架运行环境](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/02-express.md)
  <br/>
 [03-GoodsListInterface.md - 基于Node.js开发商品列表接口](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/03-GoodsListInterface.md)
+<br>
+[04-pagingAndSort.md - 商品列表页分页和排序功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/04-pagingAndSort.md)
 
 
 未完待续......

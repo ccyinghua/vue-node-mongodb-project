@@ -3,7 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueLazyLoad from 'vue-lazyload'
+import VueLazyLoad from 'vue-lazyload'  // 懒加载
+import infiniteScroll from 'vue-infinite-scroll'  // 滚动加载
+Vue.use(infiniteScroll)
 
 import './assets/css/base.css'
 import './assets/css/checkout.css'
