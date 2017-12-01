@@ -150,7 +150,7 @@ data(){
 methods:{
     setPriceFilter(index){   // 点击价格
         this.priceChecked = index;
-        closePop();
+        this.closePop();
     },
     showFilterPop(){     // 点击filterBy出现价格菜单和遮罩
         this.filterBy = true;
