@@ -60,6 +60,7 @@ cnpm install vue-lazyload --save   // 图片加载
 [03-GoodsListInterface.md - 基于Node.js开发商品列表接口](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/03-GoodsListInterface.md)
 <br>
 [04-pagingAndSort.md - 商品列表页分页和排序功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/04-pagingAndSort.md)
-
+<br>
+[05-priceFilter.md - 列表页价格过滤功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/05-priceFilter.md)
 
 未完待续......

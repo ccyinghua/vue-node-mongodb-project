@@ -47,8 +47,12 @@
                     </li>
                   </ul>
                   <!-- 滚动加载插件 -->
-                  <div class="view-more-normal" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="20">
-                    加载中...
+                  <div  class="view-more-normal"
+                        v-infinite-scroll="loadMore"
+                        infinite-scroll-disabled="busy"
+                        infinite-scroll-distance="20">
+                    <!-- 加载中... -->
+                    <img v-show="loading" src="/static/loading-svg/loading-spinning-bubbles.svg" alt="">
                   </div>
                 </div>
               </div>
@@ -98,7 +102,9 @@ export default {
             page:1,            // 当前第一页
             pageSize:8,         // 一页有8条数据
 
-            busy:true    // 滚动加载插件默认禁用
+            busy:true,    // 滚动加载插件默认禁用
+
+            loading:false    // 往下滚动"加载图标"的出现效果
         }
     },
     components:{
@@ -114,12 +120,15 @@ export default {
             var param = {
               page:this.page,
               pageSize:this.pageSize,
-              sort:this.sortFlag ? 1 : -1   // sortFlag为true升序
+              sort:this.sortFlag ? 1 : -1 ,  // sortFlag为true升序
+              priceLevel:this.priceChecked   // 点击的价格区间
             }
+            this.loading = true;
             axios.get("/goods",{
               params:param    // 传参
             }).then((res)=>{
                 var res = res.data;
+                this.loading = false;
                 if(res.status == "0"){
                   if(flag){   // true.商品数据累加
                     this.goodsList = this.goodsList.concat(res.result.list);
@@ -146,7 +155,8 @@ export default {
         },
         setPriceFilter(index){   // 点击价格
             this.priceChecked = index;
-            closePop();
+            this.closePop();
+            this.getGoodsList();
         },
         showFilterPop(){     // 点击filterBy出现价格菜单和遮罩
             this.filterBy = true;
