@@ -41,7 +41,7 @@
                         <div class="name">{{item.productName}}</div>
                         <div class="price">{{item.salePrice}}</div>
                         <div class="btn-area">
-                          <a href="javascript:;" class="btn btn--m">加入购物车</a>
+                          <a href="javascript:;" class="btn btn--m" @click="addCart(item.productId)">加入购物车</a>
                         </div>
                       </div>
                     </li>
@@ -63,6 +63,17 @@
         <div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
         <!-- 底部组件 -->
         <nav-footer></nav-footer>
+
+
+        <!-- 图标：箭头  -->
+        <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+              <symbol id="icon-arrow-short" viewBox="0 0 25 32">
+                  <title>arrow-short</title>
+                  <path class="path1" d="M24.487 18.922l-1.948-1.948-8.904 8.904v-25.878h-2.783v25.878l-8.904-8.904-1.948 1.948 12.243 12.243z"></path>
+              </symbol>
+            </defs>
+        </svg>
     </div>
 </template>
 
@@ -172,7 +183,18 @@ export default {
             this.page++;
             this.getGoodsList(true);  // 滚动加载是累加数据，并不是只显示一页数据，so需要传参去请求数据的地方判断一下
           }, 500);
-
+        },
+        addCart(productId){  // 点击加入购物车
+          axios.post("/goods/addCart",{
+            productId:productId
+          }).then((res)=>{
+            var res = res.data;
+            if(res.status==0){
+              alert("加入成功")
+            }else{
+              alert("msg:"+res.msg)
+            }
+          })
         }
     }
 }

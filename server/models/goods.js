@@ -1,3 +1,4 @@
+// 对应数据库商品列表数据在resource文件夹的dumall-goods
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
