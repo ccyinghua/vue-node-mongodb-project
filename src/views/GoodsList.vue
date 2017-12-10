@@ -185,7 +185,7 @@ export default {
           }, 500);
         },
         addCart(productId){  // 点击加入购物车
-          axios.post("/goods/addCart",{
+          axios.post("/goods/addCart",{   // 接口在server/routes/goods.js
             productId:productId
           }).then((res)=>{
             var res = res.data;

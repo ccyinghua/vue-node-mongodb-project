@@ -78,6 +78,7 @@ router.get('/', function(req, res, next) {
 
 
 // 加入到购物车
+// 是二级路由，一级路由在app.js
 router.post("/addCart",function(req, res, next){
 	var userId = '100000077',
 		productId = req.body.productId;  // post请求拿到res参数：req.body
