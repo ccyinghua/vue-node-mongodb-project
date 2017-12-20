@@ -105,18 +105,18 @@ router.post("/addCart",function(req, res, next){
 				})
 				if(goodsItem){  // 若购物车商品已存在
 					userDoc.save(function (err2,doc2) {
-		              	if(err2){
-		                	res.json({
-		                  		status:"1",
-		                  		msg:err2.message
-		                	})
-		              }else{
-		                	res.json({
-		                  		status:'0',
-		                  		msg:'',
-		                  		result:'suc'
-		                	})
-		              }
+						if(err2){
+							res.json({
+								status:"1",
+								msg:err2.message
+							})
+						}else{
+							res.json({
+								status:'0',
+								msg:'',
+								result:'suc'
+							})
+						}
 		            })
 				}else{   // 若购物车商品不存在，就添加进去
 					Goods.findOne({productId:productId},function(err1,doc){  // 从商品列表页Goods查询点击加入购物车的那件商品信息
