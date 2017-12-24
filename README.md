@@ -62,5 +62,7 @@ cnpm install vue-lazyload --save   // 图片加载
 [04-pagingAndSort.md - 商品列表页分页和排序功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/04-pagingAndSort.md)
 <br>
 [05-priceAndCart.md - 商品列表价格过滤和加入购物车功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/05-priceAndCart.md)
+<br>
+[06-login.md - 登录模块](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/06-login.md)
 
 未完待续......
