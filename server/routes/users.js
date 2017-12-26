@@ -29,10 +29,10 @@ router.post("/login",function(req, res, next){
                     path:'/',
                     maxAge:100*60*60
                 });
-                res.cookie("userName",doc.userName,{
-                    path:'/',
-                    maxAge:1000*60*60
-                });
+                // res.cookie("userName",doc.userName,{
+                //     path:'/',
+                //     maxAge:1000*60*60
+                // });
                 // req.session.user = doc;
                 res.json({
                     status:"0",
@@ -47,8 +47,18 @@ router.post("/login",function(req, res, next){
 })
 
 
-
-
+// 登出接口
+router.post("/logout",function(req,res,next){
+    res.cookie("userId","",{
+        path:"/",
+        maxAge:-1  // 生命周期
+    })
+    res.json({
+        status:"0",
+        msg:'',
+        result:''
+    })
+})
 
 
 

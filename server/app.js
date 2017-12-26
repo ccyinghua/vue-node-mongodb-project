@@ -26,19 +26,40 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// 捕获登录状态
+app.use(function(req,res,next){   // 进入路由之前优先进入function
+    if(req.cookies.userId){  // 有cookies,说明已经登录
+        next();
+    }else{
+        console.log("url:"+req.originalUrl);
+        if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){  // 未登录时可以点击登录login登出logout和查看商品列表
+            next();
+        }else{
+            res.json({
+                status:'1001',
+                msg:'当前未登录',
+                result:''
+            })
+        }
+    }
+})
+
+
+
 // 一级路由
 app.use('/', index);
 app.use('/users', users);
 app.use('/goods', goods);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler 捕获404的
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+// error handler  捕获500状态的
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;

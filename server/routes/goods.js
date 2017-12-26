@@ -25,7 +25,7 @@ mongoose.connection.on("disconnected",function(){
 // 二级路由
 // 查询商品列表数据
 /* GET goods page. */
-router.get('/', function(req, res, next) {
+router.get('/list', function(req, res, next) {
 	// res.send('hello,goods list');  // 测试路由，连接成功页面出现'hello,goods list'
 
 	// express获取请求参数

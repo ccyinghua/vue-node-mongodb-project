@@ -135,7 +135,7 @@ export default {
               priceLevel:this.priceChecked   // 点击的价格区间
             }
             this.loading = true;
-            axios.get("/goods",{
+            axios.get("/goods/list",{
               params:param    // 传参
             }).then((res)=>{
                 var res = res.data;
