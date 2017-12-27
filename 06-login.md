@@ -28,10 +28,10 @@ router.post("/login",function(req, res, next){
                     path:'/',
                     maxAge:100*60*60
                 });
-                res.cookie("userName",doc.userName,{
-                    path:'/',
-                    maxAge:1000*60*60
-                });
+                // res.cookie("userName",doc.userName,{
+                //    path:'/',
+                //    maxAge:1000*60*60
+                // });
                 // req.session.user = doc;
                 res.json({
                     status:"0",
@@ -83,11 +83,133 @@ methods:{
     }
 }
 ```
+
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/1.jpg?raw=true)
 
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/2.jpg?raw=true)
 
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/3.jpg?raw=true)
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/4.jpg?raw=true)
+
+### 二、登出功能
+
+后端server/routes/users.js
+
+```javascript
+// 登出接口
+router.post("/logout",function(req,res,next){
+    res.cookie("userId","",{
+        path:"/",
+        maxAge:-1  // 生命周期
+    })
+    res.json({
+        status:"0",
+        msg:'',
+        result:''
+    })
+})
+```
+
+前端NavHeader.vue
+
+```javascript
+methods:{
+    logOut(){    // 点击logout登出
+      axios.post("/users/logout").then((response)=>{
+        let res = response.data;
+        if(res.status== "0"){
+          this.nickName = '';
+        }
+      })
+    }
+}
+
+```
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/5.jpg?raw=true)
+
+
+### 三、登录拦截功能
+
+server/app.js
+
+```javascript
+
+// 捕获登录状态
+app.use(function(req,res,next){   // 进入路由之前优先进入function
+    if(req.cookies.userId){  // 有cookies,说明已经登录
+        next();
+    }else{
+        console.log("url:"+req.originalUrl);
+        if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.originalUrl == '/goods'){  // 未登录时可以点击登录login登出logout和查看商品列表
+            next();
+        }else{
+            res.json({
+                status:'1001',
+                msg:'当前未登录',
+                result:''
+            })
+        }
+    }
+})
+```
+这时重新启动express,node server/bin/www查看前端页面
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/6.jpg?raw=true)
+
+商品数据没有显示，因为originalUrl是当前接口的地址，'/goods'只是当前的路径，页面的请求地址后面还有页码等参数。所以可以用indexOf形式
+
+
+```javascript
+if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.originalUrl.indexOf('/goods')>-1){
+
+```
+这样会出现另一个问题，没有登录时点击加入购物车却成功了。因为加入购物车时，请求的地址是'/goods/addCart'二级路由,跟查询商品列表路由'/goods'一级路由共用了路由
+
+```javascript
+=>server/routes/goods.js
+// 查询商品列表数据
+router.get('/', function(req, res, next) {})
+
+// 加入到购物车
+router.post("/addCart",function(req, res, next){})
+
+改成
+
+// 查询商品列表数据
+router.get('/list', function(req, res, next) {})
+
+同时src/views/GoodsList.vue请求商品列表的url
+axios.get("/goods/list",{...})
+
+```
+结果server/app.js
+
+```javascript
+// 捕获登录状态
+app.use(function(req,res,next){   // 进入路由之前优先进入function
+    if(req.cookies.userId){  // 有cookies,说明已经登录
+        next();
+    }else{
+        console.log("url:"+req.originalUrl);
+        if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){  // 未登录时可以点击登录login登出logout和查看商品列表
+            next();
+        }else{
+            res.json({
+                status:'1001',
+                msg:'当前未登录',
+                result:''
+            })
+        }
+    }
+})
+```
+
+
+
+
+
 
 
 
