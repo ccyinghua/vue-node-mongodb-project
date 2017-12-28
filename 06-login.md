@@ -205,10 +205,35 @@ app.use(function(req,res,next){   // 进入路由之前优先进入function
     }
 })
 ```
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/7.png?raw=true)
 
+还有第二种方法，区分express框架的获取url的`req.path`和`req.originalUrl`    
+[http://www.expressjs.com.cn/4x/api.html#req.path](http://www.expressjs.com.cn/4x/api.html#req.path)
 
+```javascript
 
+// 捕获登录状态
+app.use(function(req,res,next){   // 进入路由之前优先进入function
+    if(req.cookies.userId){  // 有cookies,说明已经登录
+        next();
+    }else{
+        console.log(`path:${req.path},originalUrl:${req.originalUrl}`);
+        // 结果例 => path:/goods/list,originalUrl:/goods/list?page=1&pageSize=8&sort=1&priceLevel=all
+        // if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){  // 未登录时可以点击登录login登出logout和查看商品列表
+        if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.path == '/goods/list'){   // 第二种方法
+            next();
+        }else{
+            res.json({
+                status:'1001',
+                msg:'当前未登录',
+                result:''
+            })
+        }
+    }
+})
 
+```
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/8.png?raw=true)
 
 
 

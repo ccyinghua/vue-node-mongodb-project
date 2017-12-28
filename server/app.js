@@ -32,8 +32,10 @@ app.use(function(req,res,next){   // 进入路由之前优先进入function
     if(req.cookies.userId){  // 有cookies,说明已经登录
         next();
     }else{
-        console.log("url:"+req.originalUrl);
+        console.log(`path:${req.path},originalUrl:${req.originalUrl}`);
+        // 结果例 => path:/goods/list,originalUrl:/goods/list?page=1&pageSize=8&sort=1&priceLevel=all
         if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){  // 未登录时可以点击登录login登出logout和查看商品列表
+        // if(req.originalUrl =='/users/login' || req.originalUrl == '/users/logout' || req.path == '/goods/list'){   // 第二种方法
             next();
         }else{
             res.json({
@@ -44,7 +46,6 @@ app.use(function(req,res,next){   // 进入路由之前优先进入function
         }
     }
 })
-
 
 
 // 一级路由
