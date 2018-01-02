@@ -75,7 +75,18 @@ export default {
       nickName:''
     }
   },
+  mounted(){
+    this.checkLogin();
+  },
   methods:{
+    checkLogin(){   // 检查是否登录
+      axios.get("/users/checkLogin").then((response)=>{
+        let res = response.data;
+        if(res.status == '0'){
+          this.nickName = res.result;
+        }
+      })
+    },
     login(){     // 点击登录
       console.log("userName:"+this.userName)
       if(!this.userName || !this.userPwd){

@@ -236,7 +236,55 @@ app.use(function(req,res,next){   // 进入路由之前优先进入function
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/8.png?raw=true)
 
 
+### 四、校验登录
 
+server/routes/users.js
 
+```
+登录接口添加userName的cookie
+res.cookie("userName",doc.userName,{
+    path:'/',
+    maxAge:1000*60*60
+});
 
+// 校验是否登录
+router.get("/checkLogin",function(req,res,next){
+    if(req.cookies.userId){
+        res.json({
+            status:'0',
+            msg:'',
+            result:req.cookies.userName || ''
+        });
+    }else{
+        res.json({
+            status:'1',
+            msg:'未登录',
+            result:''
+        })
+    }
+})
 
+```
+
+src/components/NavHeader.vue
+
+```
+mounted(){
+    this.checkLogin();
+},
+methods:{
+    checkLogin(){   // 检查是否登录
+      axios.get("/users/checkLogin").then((response)=>{
+        let res = response.data;
+        if(res.status == '0'){
+          this.nickName = res.result;
+        }
+      })
+    }
+}
+```
+重新启动express服务，刷新页面，登录
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/9.jpg?raw=true)
+
+重新刷新页面之后，页面还是登录状态。
