@@ -48,7 +48,7 @@
                 </li>
                 <li class="regi_form_input noMargin">
                   <i class="icon IconPwd"></i>
-                  <input type="password" name="password" v-model="userPwd" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password">
+                  <input type="password" name="password" v-model="userPwd" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password" @keyup.enter="login"><!-- @keyup.enter="login"实现回车登录 -->
                 </li>
               </ul>
             </div>

@@ -559,6 +559,30 @@ html {
   color: #333;
 }
 
+.cart-item-list .item-quantity .select-self-area{
+  background:none;
+  border: 1px solid #f0f0f0;
+}
+.cart-item-list .item-quantity .select-self-area .input-sub,
+.cart-item-list .item-quantity .select-self-area .input-add{
+  min-width: 40px;
+  height: 100%;
+  border: 0;
+  color: #605F5F;
+  text-align: center;
+  font-size: 16px;
+  overflow: hidden;
+  display: inline-block;
+  background: #f0f0f0;
+}
+.cart-item-list .item-quantity .select-self-area .select-ipt{
+  display: inline-block;
+  padding:0 3px;
+  width: 30px;
+  min-width: 30px;
+  text-align: center;
+}
+
 .cart-item-list .item-price-total {
   color: #d1434a;
   font-size: 16px;
