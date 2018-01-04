@@ -423,10 +423,11 @@
   color: #ee7a23;
 }
 
-.filter-nav .sort-up .icon-arrow-short {
+.filter-nav .sort-up {
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+  transition:all .3s ease-out;
 }
 
 .filter-nav .filterby {
@@ -478,6 +479,7 @@
 .icon-arrow-short {
   width: 11px;
   height: 11px;
+  transition:all .3s ease-in;
 }
 
 .page-title-accessory {

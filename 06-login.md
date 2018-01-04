@@ -288,3 +288,112 @@ methods:{
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/9.jpg?raw=true)
 
 重新刷新页面之后，页面还是登录状态。
+
+
+### 五、全局模态框组件实现
+
+知识点父子组件通信： [http://www.cnblogs.com/ccyinghua/p/7874651.html](http://www.cnblogs.com/ccyinghua/p/7874651.html)
+
+建立一个模态框组件：src/components/Modal.vue
+
+```javascript
+子组件：
+// mdShow是父组件传过来的数据，控制模态框是否显示
+// 关闭模态框时，触发close方法，与父组件进行通信，告诉它要关闭模态框
+export default {
+    props:["mdShow"],   // 接收父组件传过来的mdShow
+    data(){
+        return {
+
+        }
+    },
+    methods:{
+        closeModal(){   // 关闭模态框
+            this.$emit("close");  // 触发close方法
+        }
+    }
+}
+
+```
+src/views/GoodsList.vue
+
+```html
+父组件：
+
+<!-- 模态框 -->
+  <!-- 说明：父组件传mdShow数据给子组件，监听子组件触发的close事件，然后调用closeModal方法 -->
+<!-- 未登录状态 -->
+<Modal v-bind:mdShow="mdShow" @close="closeModal">
+  <p slot="message">
+    请先登录,否则无法加入到购物车中!
+  </p>
+  <div slot="btnGroup">
+    <a href="javascript:;" class="btn btn--m" @click="mdShow=false">关闭</a>
+  </div>
+</Modal>
+<!-- 登陆了 -->
+<Modal v-bind:mdShow="mdShowCart" @close="closeModal">
+  <p slot="message">
+    <svg class="icon-status-ok">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-status-ok"></use>
+    </svg>
+    <span>加入购物车成功!</span>
+  </p>
+  <div slot="btnGroup">
+    <a class="btn btn--m" href="javascript:;" @click="mdShowCart = false">继续购物</a>
+    <router-link class="btn btn--m btn--red" href="javascript:;" to="/cart">查看购物车</router-link>
+  </div>
+</Modal>
+
+```
+
+```javascript
+import Modal from '@/components/Modal.vue'  // 模态框
+
+export default {
+    data(){
+        return {
+            mdShow:false,    // 未登录的模态框是否显示
+            mdShowCart:false    // 已登录的模态框是否显示
+        }
+    },
+    components:{
+        Modal
+    },
+    methods:{
+        addCart(productId){  // 点击加入购物车
+          axios.post("/goods/addCart",{   // 接口设置在server/routes/goods.js
+            productId:productId
+          }).then((res)=>{
+            var res = res.data;
+            if(res.status==0){
+              //alert("加入成功")
+              this.mdShowCart = true; // 加入购物车成功，成功的模态框显示
+            }else{
+              // alert("msg:"+res.msg)
+              this.mdShow = true;   // 未登录模态框显示
+            }
+          })
+        },
+        closeModal(){    // 关闭模态框
+            this.mdShow = false;   // 未登录模态框消失
+            this.mdShowCart = false;   // 未登录模态框消失
+        }
+    }
+}
+
+```
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/10.jpg?raw=true)
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/10/11.jpg?raw=true)
+
+
+
+
+
+
+
+
+
+
+
