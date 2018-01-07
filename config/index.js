@@ -34,7 +34,7 @@ module.exports = {
         '/goods/*':{
             target:'http://localhost:3000'
         },
-        '/users/*':{
+        '/users/*':{   // users/路由的下一级路由
             target:'http://localhost:3000'
         }
     },

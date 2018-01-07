@@ -60,7 +60,7 @@
                   </div>
                   <div class="cart-tab-5">
                     <div class="cart-item-opration">
-                      <a href="javascript:;" class="item-edit-btn">
+                      <a href="javascript:;" class="item-edit-btn" @click="delCartConfirm(item.productId)">
                         <svg class="icon icon-del">
                           <use xlink:href="#icon-del"></use>
                         </svg>
@@ -95,6 +95,14 @@
           </div>
         </div>
       </div>
+      <!-- 模态框 -->
+      <Modal :mdShow="modalConfirm" @close="closeModal">
+        <p slot="message">你确认要删除此条数据吗？</p>
+        <div slot="btnGroup">
+          <a href="javascript:;" class="btn btn--m" @click="delCart">确认</a>
+          <a href="javascript:;" class="btn btn--m" @click="modalConfirm = false">关闭</a>
+        </div>
+      </Modal>
       <!-- 底部组件 -->
       <nav-footer></nav-footer>
       <!-- 图标 -->
@@ -149,7 +157,9 @@ import axios from 'axios'
 export default {
     data(){
         return {
-          cartList:[]  // 购物车商品列表
+          cartList:[],  // 购物车商品列表
+          productId:'',
+          modalConfirm:false   // 模态框是否显示
         }
     },
     components:{
@@ -166,6 +176,24 @@ export default {
         axios.get('/users/cartList').then((response)=>{
           let res = response.data;
           this.cartList = res.result;
+        })
+      },
+      delCartConfirm(productId){   // 点击删除图标
+        this.productId = productId;
+        this.modalConfirm = true;  // 模态框显示
+      },
+      closeModal(){   // 关闭模态框
+        this.modalConfirm = false;
+      },
+      delCart(){   // 确认删除此商品
+        axios.post('/users/cartDel',{
+          productId:this.productId
+        }).then((response) => {
+          let res = response.data;
+          if(res.status = '0'){
+            this.modalConfirm = false;  // 关闭模态框
+            this.init();  // 重新初始化购物车数据
+          }
         })
       }
     }

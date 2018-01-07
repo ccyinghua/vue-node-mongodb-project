@@ -51,10 +51,12 @@ router.post("/login",function(req, res, next){
 
 ```javascript
 proxyTable: {    
-    '/users/*':{
+    '/users/*':{    // users/路由的下一级路由
         target:'http://localhost:3000'
     }
 },
+
+说明：如果是有三级路由，例'/users/cart/del'，需要配置'/users/**';否则请求时会出现404错误。
 
 ```
 前端NavHeader.vue

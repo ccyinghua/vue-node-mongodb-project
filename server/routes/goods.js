@@ -127,7 +127,7 @@ router.post("/addCart",function(req, res, next){
 							})
 						}else{
 							if(doc){
-								doc.productNum = 1;
+								doc.productNum = 1;   // 在Goods模型中添加属性，要去models/goods.js的Schema添加这两个属性。
 								doc.checked = 1;
 								userDoc.cartList.push(doc);  // 添加信息到用户购物车列表中
 								userDoc.save(function(err2,doc2){  // 保存数据库

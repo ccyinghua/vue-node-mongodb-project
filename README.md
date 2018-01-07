@@ -59,6 +59,13 @@ cnpm install vue-lazyload --save   // 图片加载
 <br>
 [05-priceAndCart.md - 商品列表价格过滤和加入购物车功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/05-priceAndCart.md)
 <br>
-[06-login.md - 登录模块](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/06-login.md)
+[06-login.md - 登录模块(登录功能/登出功能/登录拦截功能/校验登录/全局模态框组件实现)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/06-login.md)
+<br>
+[07-shoppingCart.md - 购物车模块实现(渲染购物车列表页面/购物车列表删除功能/)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/07-shoppingCart.md)
+
+
+
 
 未完待续......
+
+
