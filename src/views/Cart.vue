@@ -48,9 +48,9 @@
                     <div class="item-quantity">
                       <div class="select-self select-self-open">
                         <div class="select-self-area">
-                          <a class="input-sub">-</a>
+                          <a class="input-sub"  @click="editCart('minu',item)">-</a>
                           <span class="select-ipt">{{item.productNum}}</span>
-                          <a class="input-add">+</a>
+                          <a class="input-add" @click="editCart('add',item)">+</a>
                         </div>
                       </div>
                     </div>
@@ -75,8 +75,8 @@
             <div class="cart-foot-inner">
               <div class="cart-foot-l">
                 <div class="item-all-check">
-                  <a href="javascipt:;">
-                        <span class="checkbox-btn item-check-btn">
+                  <a href="javascipt:;" @click="toggleCheckAll">
+                        <span class="checkbox-btn item-check-btn" v-bind:class="{'check':checkAllFlag}">
                             <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
                         </span>
                     <span>Select all</span>
@@ -159,7 +159,8 @@ export default {
         return {
           cartList:[],  // 购物车商品列表
           productId:'',
-          modalConfirm:false   // 模态框是否显示
+          modalConfirm:false,   // 模态框是否显示
+          // checkAllFlag:false   // 控制全选
         }
     },
     components:{
@@ -170,6 +171,18 @@ export default {
     },
     mounted:function(){
       this.init();
+    },
+    computed:{   // 实时计算的是属性，只不过是函数的写法，data里面就不用在声明了
+      checkAllFlag(){    // 是否全选属性
+        return this.checkedCount == this.cartList.length;  // 勾选的商品种数=购物车商品列表的商品种数时，返回true代表全选。
+      },
+      checkedCount(){   // 获取已勾选的商品种数(几种商品已勾选)
+        var i = 0;
+        this.cartList.forEach((item)=>{
+          if(item.checked=='1')i++;
+        });
+        return i;
+      }
     },
     methods:{
       init(){  // 初始化商品数据
@@ -193,6 +206,54 @@ export default {
           if(res.status = '0'){
             this.modalConfirm = false;  // 关闭模态框
             this.init();  // 重新初始化购物车数据
+          }
+        })
+      },
+      editCart(flag,item){   // 商品加减和勾选
+        if(flag == 'add'){    // 添加商品数量
+          item.productNum++;
+        }else if(flag == 'minu'){   // 减少商品数量
+          if(item.productNum <= 1){
+            return;
+          }
+          item.productNum--;
+        }else{      // 商品控制选中
+          item.checked = item.checked=='1' ? '0' : '1';
+        }
+        axios.post('/users/cartEdit',{
+          productId:item.productId,
+          productNum:item.productNum,
+          checked:item.checked
+        }).then((response)=>{
+          let res = response.data;
+        })
+      },
+      // toggleCheckAll(){    // 全选和取消全选
+      //   this.checkAllFlag = !this.checkAllFlag;
+      //   this.cartList.forEach((item)=>{
+      //     item.checked = this.checkAllFlag;
+      //   })
+      //   axios.post('/users/editCheckAll',{
+      //     checkAll:this.checkAllFlag
+      //   }).then((response)=>{
+      //     let res = response.data;
+      //     if(res.status=='0'){
+      //       console.log("update suc");
+      //     }
+      //   })
+      // }
+      toggleCheckAll(){    // 全选和取消全选
+        // this.checkAllFlag = !this.checkAllFlag;  // 不能使用这种写法了，checkAllFlag是实时计算的属性，如果true取反变成false之后，还没来得及执行下面的所有商品取消勾选，就实时计算了检测到勾选的商品种数=购物车商品列表的商品种数,就又变成全选了。
+        var flag = !this.checkAllFlag; // 声明变量取代
+        this.cartList.forEach((item)=>{
+          item.checked = flag ?'1':'0';
+        })
+        axios.post('/users/editCheckAll',{
+          checkAll:flag
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status=='0'){
+            console.log("update suc");
           }
         })
       }
