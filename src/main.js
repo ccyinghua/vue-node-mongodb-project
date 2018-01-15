@@ -17,6 +17,9 @@ Vue.use(VueLazyLoad,{
     loading:"/static/loading-svg/loading-bars.svg"
 })
 
+// import {currency} from './util/currency'
+// Vue.filter("currency",currency);  // 定义全局过滤器
+
 
 /* eslint-disable no-new */
 new Vue({

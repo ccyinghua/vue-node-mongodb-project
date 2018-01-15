@@ -409,9 +409,46 @@ export default {
 
 - ###### 商品实时计算功能实现
 
+这里也要用到computed计算属性
 
+```html
 
+<div class="item-total">
+  Item total: <span class="total-price">{{totalPrice}}</span>
+</div>
 
+computed:{
+    totalPrice(){   // 总价格属性
+        var money = 0;
+        this.cartList.forEach((item)=>{
+            if(item.checked=='1'){
+                money += parseFloat(item.salePrice)*parseInt(item.productNum);
+            }
+        });
+        return money;
+    }
+}
+
+```
+接下来要对价格进行格式化，vuex官网github有一个对购物车将格式化的函数 [https://github.com/vuejs/vuex/blob/dev/examples/shopping-cart/currency.js](https://github.com/vuejs/vuex/blob/dev/examples/shopping-cart/currency.js) 可以拿过来对价格格式化，在src/util/currency.js
+
+格式化要用到过滤器：可以在src/views/Cart.vue导入使用局部过滤器，也可以在main.js使用全局过滤器
+
+```
+<span class="total-price">{{totalPrice | currency('$')}}</span>
+
+// 局部过滤器
+import {currency} from '@/util/currency.js'
+filters:{ 
+  currency:currency  // currency.js传过来的本就是函数
+},
+
+// 全局过滤器
+import {currency} from './util/currency'
+Vue.filter("currency",currency);
+```
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/11/8.jpg?raw=true)
 
 
 

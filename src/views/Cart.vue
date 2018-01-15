@@ -42,7 +42,7 @@
                     </div>
                   </div>
                   <div class="cart-tab-2">
-                    <div class="item-price">{{item.salePrice}}</div>
+                    <div class="item-price">{{item.salePrice | currency('$')}}</div>
                   </div>
                   <div class="cart-tab-3">
                     <div class="item-quantity">
@@ -56,7 +56,7 @@
                     </div>
                   </div>
                   <div class="cart-tab-4">
-                    <div class="item-price-total">{{item.productNum*item.salePrice}}</div>
+                    <div class="item-price-total">{{(item.productNum*item.salePrice) | currency('$')}}</div>
                   </div>
                   <div class="cart-tab-5">
                     <div class="cart-item-opration">
@@ -85,7 +85,7 @@
               </div>
               <div class="cart-foot-r">
                 <div class="item-total">
-                  Item total: <span class="total-price">500</span>
+                  Item total: <span class="total-price">{{totalPrice | currency('$')}}</span>
                 </div>
                 <div class="btn-wrap">
                   <a class="btn btn--red">Checkout</a>
@@ -153,13 +153,14 @@ import NavFooter from '@/components/NavFooter.vue'  // 底部
 import NavBread from '@/components/NavBread.vue'  // 面包屑
 import Modal from '@/components/Modal.vue'  // 模态框
 import axios from 'axios'
+import {currency} from '@/util/currency.js'  // 对价格格式化的通用方法
 
 export default {
     data(){
         return {
           cartList:[],  // 购物车商品列表
           productId:'',
-          modalConfirm:false,   // 模态框是否显示
+          modalConfirm:false   // 模态框是否显示
           // checkAllFlag:false   // 控制全选
         }
     },
@@ -172,6 +173,9 @@ export default {
     mounted:function(){
       this.init();
     },
+    filters:{   // 定义局部过滤器
+      currency:currency  // currency.js传过来的本就是函数
+    },
     computed:{   // 实时计算的是属性，只不过是函数的写法，data里面就不用在声明了
       checkAllFlag(){    // 是否全选属性
         return this.checkedCount == this.cartList.length;  // 勾选的商品种数=购物车商品列表的商品种数时，返回true代表全选。
@@ -182,6 +186,15 @@ export default {
           if(item.checked=='1')i++;
         });
         return i;
+      },
+      totalPrice(){   // 总价格
+        var money = 0;
+        this.cartList.forEach((item)=>{
+          if(item.checked=='1'){
+            money += parseFloat(item.salePrice)*parseInt(item.productNum);
+          }
+        });
+        return money;
       }
     },
     methods:{
