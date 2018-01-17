@@ -88,7 +88,7 @@
                   Item total: <span class="total-price">{{totalPrice | currency('$')}}</span>
                 </div>
                 <div class="btn-wrap">
-                  <a class="btn btn--red">Checkout</a>
+                  <a class="btn btn--red" v-bind:class="{'btn--dis':checkedCount==0}" @click="checkOut">Checkout</a>
                 </div>
               </div>
             </div>
@@ -269,6 +269,13 @@ export default {
             console.log("update suc");
           }
         })
+      },
+      checkOut(){    // 结账
+        if(this.checkedCount>0){   // 已勾选的商品种数>0时才可以跳转到地址列表页
+          this.$router.push(
+            {path:"/address"}
+          );
+        }
       }
     }
 }

@@ -35,17 +35,37 @@ cnpm install vue-lazyload --save   // 图片加载
 ```
 > 文件夹列表
 
-- resource文件夹：静态资源文件
-- server文件夹：Express框架
-- test文件夹：vue-resource,axios,ES6,ES6-promise基础用法
-- mock文件夹：放入json数据
+```
+| - build
+| - config
+| - mock     -- json静态数据
+| - resource -- 静态资源文件
+| - server   -- express框架后端文件
+    | - models  
+        | - goods.js  -- 商品数据模型
+        | - users.js  -- 用户数据模型
+    | - routes
+        | - goods.js  -- 商品相关接口
+        | - users.js  -- 用户相关接口
+| - src
+    | - assets      -- 样式文件
+    | - components
+        | - Modal.vue      -- 模态框组件
+        | - NavHeader.vue  -- 头部组件
+        | - NavBread.vue   -- 面包屑组件
+        | - NavFooter.vue  -- 底部组件
+    | - router -- 路由配置文件
+    | - util   -- 公用方法文件
+    | - views
+        | - GoodsList.vue  -- 商品列表页组件
+        | - Cart.vue       -- 购物车列表组件
+        | - Address.vue    -- 地址列表页组件
+    | - App.vue
+    | - main.js
+| - static   -- 项目所用图片，图标
+| - test     -- vue-resource,axios,ES6,ES6-promise基础用法
 
-> 拆分组件分布
-
-- GoodList.vue
-    - NavHeader.vue-头部组件
-    - NavFooter.vue-底部组件
-    - NavBread.vue-面包屑组件
+```
 
 > Markdown说明文件
 
@@ -62,8 +82,8 @@ cnpm install vue-lazyload --save   // 图片加载
 [06-login.md - 登录模块(登录功能/登出功能/登录拦截功能/校验登录/全局模态框组件实现)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/06-login.md)
 <br>
 [07-shoppingCart.md - 购物车模块实现(渲染购物车列表页面/购物车列表删除功能/购物车商品修改功能)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/07-shoppingCart.md)
-
-
+<br>
+[08-address.md - 地址模块实现](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/08-address.md)
 
 
 未完待续......
