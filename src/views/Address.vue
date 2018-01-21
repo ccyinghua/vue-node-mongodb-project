@@ -48,7 +48,7 @@
             <div class="page-title-normal">
               <h2 class="page-title-h2"><span>check out</span></h2>
             </div>
-            <!-- process step -->
+            <!-- process step 步骤-->
             <div class="check-step">
               <ul>
                 <li class="cur"><span>Confirm</span> address</li>
@@ -58,18 +58,18 @@
               </ul>
             </div>
 
-            <!-- address list -->
+            <!-- address list 地址列表-->
             <div class="page-title-normal checkout-title">
               <h2><span>Shipping address</span></h2>
             </div>
             <div class="addr-list-wrap">
               <div class="addr-list">
                 <ul>
-                  <li>
+                  <li v-for="(item,index) in addressListFilter" v-bind:class="{'check':checkIndex == index}" @click="checkIndex=index">
                     <dl>
-                      <dt>XXX</dt>
-                      <dd class="address">朝阳公园</dd>
-                      <dd class="tel">10000000000</dd>
+                      <dt>{{item.userName}}</dt>
+                      <dd class="address">{{item.streetName}}</dd>
+                      <dd class="tel">{{item.tel}}</dd>
                     </dl>
                     <div class="addr-opration addr-del">
                       <a href="javascript:;" class="addr-del-btn">
@@ -93,7 +93,7 @@
               </div>
 
               <div class="shipping-addr-more">
-                <a class="addr-more-btn up-down-btn" href="javascript:;">
+                <a class="addr-more-btn up-down-btn" href="javascript:;"  @click="expand" v-bind:class="{'open':limit>3}">
                   more
                   <i class="i-up-down">
                     <i class="i-up-down-l"></i>
@@ -145,7 +145,9 @@ import {currency} from '@/util/currency.js'  // 对价格格式化的通用方�
 export default {
     data(){
         return {
-
+          addressList:[],   // 地址列表
+          limit:3,   // 限制默认显示3个地址
+          checkIndex:0   // 选中的地址索引
         }
     },
     components:{
@@ -154,14 +156,28 @@ export default {
       NavBread,
       Modal
     },
-    mounted:function(){
-
+    mounted(){
+      this.init();
     },
     computed:{
-
+      addressListFilter(){
+        return this.addressList.slice(0,this.limit);
+      }
     },
     methods:{
-
+      init(){   // 渲染地址列表
+        axios.get('/users/addressList').then((response) => {
+          let res = response.data;
+          this.addressList = res.result;
+        })
+      },
+      expand(){  //  点击more更多
+        if(this.limit ==3){
+          this.limit = this.addressList.length;
+        }else{
+          this.limit =3;
+        }
+      }
     }
 }
 </script>

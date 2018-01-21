@@ -231,7 +231,7 @@ export default {
           }
           item.productNum--;
         }else{      // 商品控制选中
-          item.checked = item.checked=='1' ? '0' : '1';
+          item.checked = (item.checked=='1') ? '0' : '1';
         }
         axios.post('/users/cartEdit',{
           productId:item.productId,
