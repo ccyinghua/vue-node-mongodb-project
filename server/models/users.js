@@ -18,7 +18,16 @@ var userSchema = new Schema({
             "productNum":String  // 商品数量
         }
     ],
-    "addressList":Array
+    "addressList":[
+        {
+            "addressId": String,
+            "userName": String,
+            "streetName": String,
+            "postCode": Number,
+            "tel": Number,
+            "isDefault": Boolean
+        }
+    ]
 })
 
 // 输出(导出)

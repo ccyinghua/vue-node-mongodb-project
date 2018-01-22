@@ -72,14 +72,14 @@
                       <dd class="tel">{{item.tel}}</dd>
                     </dl>
                     <div class="addr-opration addr-del">
-                      <a href="javascript:;" class="addr-del-btn">
+                      <a href="javascript:;" class="addr-del-btn" @click="delAddressConfirm(item.addressId)">
                         <svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
                       </a>
                     </div>
                     <div class="addr-opration addr-set-default">
-                      <a href="javascript:;" class="addr-set-default-btn"><i>Set default</i></a>
+                      <a href="javascript:;" class="addr-set-default-btn" v-if="!item.isDefault" @click="setDefault(item.addressId)"><i>Set default</i></a>
                     </div>
-                    <div class="addr-opration addr-default">Default address</div>
+                    <div class="addr-opration addr-default" v-if="item.isDefault">Default address</div>
                   </li>
                   <li class="addr-new">
                     <div class="add-new-inner">
@@ -129,6 +129,16 @@
           </div>
         </div>
       </div>
+      <!-- 模态框 -->
+      <modal :mdShow="isMdShow" @close="closeModal">
+        <p slot="message">
+          您是否确认要删除此地址?
+        </p>
+        <div slot="btnGroup">
+            <a class="btn btn--m" href="javascript:;" @click="delAddress">确认</a>
+            <a class="btn btn--m btn--red" href="javascript:;" @click="isMdShow=false">取消</a>
+        </div>
+      </modal>
       <!-- 底部组件 -->
       <nav-footer></nav-footer>
     </div>
@@ -147,7 +157,9 @@ export default {
         return {
           addressList:[],   // 地址列表
           limit:3,   // 限制默认显示3个地址
-          checkIndex:0   // 选中的地址索引
+          checkIndex:0,   // 选中的地址索引
+          isMdShow:false,   // 模态框的显示设置
+          addressId:''     // 地址id的存储，用于请求传参
         }
     },
     components:{
@@ -177,6 +189,36 @@ export default {
         }else{
           this.limit =3;
         }
+      },
+      setDefault(addressId){  // 设置默认地址
+        axios.post('/users/setDefault',{
+          addressId:addressId
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status=='0'){
+            console.log("set default");
+            this.init();  // 重新渲染地址列表
+          }
+        })
+      },
+      closeModal(){   // 关闭模态窗
+        this.isMdShow = false;
+      },
+      delAddressConfirm(addressId){   // 点击删除图标，模态框出现
+        this.isMdShow = true;
+        this.addressId = addressId; // 地址id赋值
+      },
+      delAddress(){
+        axios.post("/users/delAddress",{
+          addressId:this.addressId
+        }).then((response)=>{
+            let res = response.data;
+            if(res.status=="0"){
+              console.log("del suc");
+              this.isMdShow = false;  // 告诉模态框组件，设置模态框消失
+              this.init();  // 重新渲染地址
+            }
+        })
       }
     }
 }
