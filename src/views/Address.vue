@@ -65,7 +65,7 @@
             <div class="addr-list-wrap">
               <div class="addr-list">
                 <ul>
-                  <li v-for="(item,index) in addressListFilter" v-bind:class="{'check':checkIndex == index}" @click="checkIndex=index">
+                  <li v-for="(item,index) in addressListFilter" v-bind:class="{'check':checkIndex == index}" @click="checkIndex=index;selectedAddrId=item.addressId">
                     <dl>
                       <dt>{{item.userName}}</dt>
                       <dd class="address">{{item.streetName}}</dd>
@@ -124,7 +124,8 @@
               </div>
             </div>
             <div class="next-btn-wrap">
-              <a class="btn btn--m btn--red">Next</a>
+              <!-- a标签跳转 -->
+              <router-link class="btn btn--m btn--red" v-bind:to="{path:'/orderConfirm',query:{'addressId':selectedAddrId}}">Next</router-link>
             </div>
           </div>
         </div>
@@ -159,7 +160,9 @@ export default {
           limit:3,   // 限制默认显示3个地址
           checkIndex:0,   // 选中的地址索引
           isMdShow:false,   // 模态框的显示设置
-          addressId:''     // 地址id的存储，用于请求传参
+          addressId:'',     // 地址id的存储，用于请求传参
+
+          selectedAddrId:''  // 选中的地址id存储,用于点击Next跳转到订单确认页面传参
         }
     },
     components:{

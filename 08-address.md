@@ -369,6 +369,48 @@ export default {
 
 ```
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/12/9.jpg?raw=true)
+<br>
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/12/10.jpg?raw=true)
+<br>
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/12/11.jpg?raw=true)
+
+> #### 点击Next跳转到订单确认页面
+
+跳转要传选择的地址id传过去
+
+src/views/Address.vue
+
+```html
+<!--选择地址的时候将地址id赋值给selectedAddrId-->
+<li v-for="(item,index) in addressListFilter" v-bind:class="{'check':checkIndex == index}" @click="checkIndex=index;selectedAddrId=item.addressId"></li>
+
+<!--动态跳转，传参传入地址id-->
+<router-link class="btn btn--m btn--red" v-bind:to="{path:'/orderConfirm',query:{'addressId':selectedAddrId}}">Next</router-link>
+
+```
+
+```javascript
+export default {
+    data(){
+        return {
+          selectedAddrId:''  // 选中的地址id存储,用于点击Next跳转到订单确认页面传参
+        }
+    }
+}
+```
+点击Next跳转，跳转到订单确认页面，url带了选择的地址id参数
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/12/12.jpg?raw=true)
+
+
+
+
+
+
+
+
+
+
 
 
 
