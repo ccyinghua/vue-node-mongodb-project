@@ -57,9 +57,10 @@ cnpm install vue-lazyload --save   // 图片加载
     | - router -- 路由配置文件
     | - util   -- 公用方法文件
     | - views
-        | - GoodsList.vue  -- 商品列表页组件
-        | - Cart.vue       -- 购物车列表组件
-        | - Address.vue    -- 地址列表页组件
+        | - GoodsList.vue    -- 商品列表页组件
+        | - Cart.vue         -- 购物车列表组件
+        | - Address.vue      -- 地址列表页组件
+        | - OrderConfirm.vue -- 订单确认页面
     | - App.vue
     | - main.js
 | - static   -- 项目所用图片，图标
@@ -83,7 +84,9 @@ cnpm install vue-lazyload --save   // 图片加载
 <br>
 [07-shoppingCart.md - 购物车模块实现(渲染购物车列表页面/购物车列表删除功能/购物车商品修改功能)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/07-shoppingCart.md)
 <br>
-[08-address.md - 地址模块实现](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/08-address.md)
+[08-address.md - 地址模块实现(地址列表渲染/地址切换和展开/设置默认地址/地址删除功能实现)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/08-address.md)
+<br>
+[09-orderConfirm.md - 订单模块实现(订单列表渲染/创建订单功能)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/09-orderConfirm.md)
 
 
 未完待续......
