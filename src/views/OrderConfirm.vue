@@ -194,6 +194,24 @@ export default {
       },
       payMent(){   // 点击支付
 
+        // 从路由那里获取到订单地址的id
+        // http://localhost:8080/#/orderConfirm?addressId=100001
+        var addressId = this.$route.query.addressId;
+
+        axios.post('/users/payMent',{
+          addressId:addressId,
+          orderTotal:this.orderTotal
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status == '0'){
+            console.log('order created success');
+
+            // 路由跳转到订单成功页面
+            this.$router.push({
+              path:'/orderSuccess?orderId='+res.result.orderId
+            })
+          }
+        })
       }
     }
 }

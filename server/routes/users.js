@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+require('./../util/util');  // 引入时间格式化函数工具
+
 var User = require('./../models/users.js');
 
 /* GET users listing. */
@@ -294,6 +296,81 @@ router.post("/delAddress", function (req,res,next) {
   });
 });
 
+
+// 创建订单功能
+router.post('/payMent', function(req,res,next){
+    // 前端传参：订单的地址id;订单最终的总金额
+    var userId = req.cookies.userId,
+        addressId = req.body.addressId,
+        orderTotal = req.body.orderTotal;
+    User.findOne({userId:userId}, function(err,doc){
+        if(err){
+            res.json({
+                status:'1',
+                msg:err.message,
+                result:''
+            })
+        }else{
+            var address = '',goodsList = [];
+            // 获取当前用户的地址信息
+            doc.addressList.forEach((item)=>{
+                if(addressId == item.addressId){
+                    address = item;
+                }
+            })
+            // 获取当前用户的购物车的购买商品
+            doc.cartList.filter((item)=>{
+                if(item.checked == '1'){
+                    goodsList.push(item);
+                }
+            })
+
+            //创建订单Id
+            var platform = '622'; // 平台系统架构码
+            var r1 = Math.floor(Math.random()*10);
+            var r2 = Math.floor(Math.random()*10);
+
+            var sysDate = new Date().Format('yyyyMMddhhmmss');  // 系统时间：年月日时分秒
+            var orderId = platform+r1+sysDate+r2;  // 21位
+
+            // 订单创建时间
+            var createDate = new Date().Format('yyyy-MM-dd hh:mm:ss');
+
+            // 生成订单
+            var order = {
+                orderId:orderId,           // 订单id
+                orderTotal:orderTotal,     // 订单总金额(直接拿前端传过来的参数)
+                addressInfo:address,       // 地址信息
+                goodsList:goodsList,       // 购买的商品信息
+                orderStatus:'1',           // 订单状态，1成功
+                createDate:createDate      // 订单创建时间
+            }
+
+            // 订单信息存储到数据库
+            doc.orderList.push(order);
+
+            doc.save(function (err1,doc1) {
+                if(err1){
+                    res.json({
+                        status:"1",
+                        msg:err.message,
+                        result:''
+                    });
+                }else{
+                    // 返回订单的id和订单的总金额给前端，下一个页面要用到
+                    res.json({
+                        status:"0",
+                        msg:'',
+                        result:{
+                            orderId:order.orderId,
+                            orderTotal:order.orderTotal
+                        }
+                    });
+                }
+            });
+        }
+    })
+})
 
 
 module.exports = router;

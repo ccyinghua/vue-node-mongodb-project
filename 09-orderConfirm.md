@@ -138,10 +138,160 @@ export default {
 
 ### 二、创建订单功能实现
 
-点击支付跳转到支付页面，支付是由第三方做的集成的支付，没办法模拟复杂的支付场景，现在只做点击支付创建订单和跳转到成功页面，支付功能省略掉。
+(1)点击支付跳转到支付页面，支付是由第三方做的集成的支付，没办法模拟复杂的支付场景，现在只做点击支付创建订单和跳转到成功页面，支付功能省略掉。
+<br><br>
+(2)生成的订单里面有订单生成的时间，首先需要有对时间格式化的函数方法。
 
+时间格式化server/util/util.js
 
+```javascript
+/**
+ * Created by jacksoft on 17/4/26.
+ * 直接对Date对象原型添加方法
+ */
+Date.prototype.Format = function (fmt) {
+  var o = {
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "h+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    "S": this.getMilliseconds() //毫秒
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
+}
 
+module.exports = {};
+
+```
+
+订单生成接口 server/routes/users.js<br>
+订单生成是将订单信息(包含订单Id/订单总金额/地址信息/下单的商品信息/订单状态/订单创建时间等)存入数据库。
+
+```javascript
+require('./../util/util');  // 引入格式化函数
+
+// 创建订单功能
+router.post('/payMent', function(req,res,next){
+    // 前端传参：订单的地址id;订单最终的总金额
+    var userId = req.cookies.userId,
+        addressId = req.body.addressId,
+        orderTotal = req.body.orderTotal;
+    User.findOne({userId:userId}, function(err,doc){
+        if(err){
+            res.json({
+                status:'1',
+                msg:err.message,
+                result:''
+            })
+        }else{
+            var address = '',goodsList = [];
+            // 获取当前用户的地址信息
+            doc.addressList.forEach((item)=>{
+                if(addressId == item.addressId){
+                    address = item;
+                }
+            })
+            // 获取当前用户的购物车的购买商品
+            doc.cartList.filter((item)=>{
+                if(item.checked == '1'){
+                    goodsList.push(item);
+                }
+            })
+
+            //创建订单Id
+            var platform = '622'; // 平台系统架构码
+            var r1 = Math.floor(Math.random()*10);
+            var r2 = Math.floor(Math.random()*10);
+
+            var sysDate = new Date().Format('yyyyMMddhhmmss');  // 系统时间：年月日时分秒
+            var orderId = platform+r1+sysDate+r2;  // 21位
+
+            // 订单创建时间
+            var createDate = new Date().Format('yyyy-MM-dd hh:mm:ss');
+
+            // 生成订单
+            var order = {
+                orderId:orderId,           // 订单id
+                orderTotal:orderTotal,     // 订单总金额(直接拿前端传过来的参数)
+                addressInfo:address,       // 地址信息
+                goodsList:goodsList,       // 购买的商品信息
+                orderStatus:'1',           // 订单状态，1成功
+                createDate:createDate      // 订单创建时间
+            }
+
+            // 订单信息存储到数据库
+            doc.orderList.push(order);
+
+            doc.save(function (err1,doc1) {
+                if(err1){
+                    res.json({
+                        status:"1",
+                        msg:err.message,
+                        result:''
+                    });
+                }else{
+                    // 返回订单的id和订单的总金额给前端，下一个页面要用到
+                    res.json({
+                        status:"0",
+                        msg:'',
+                        result:{
+                            orderId:order.orderId,
+                            orderTotal:order.orderTotal
+                        }
+                    });
+                }
+            });
+        }
+    })
+})
+
+```
+src/views/OrderConfirm.vue<br>
+传参要传订单的地址id和订单的总金额<br>
+订单的地址id从订单页面的路由获取参数id值
+http://localhost:8080/#/orderConfirm?addressId=100001 的100001,`this.$route.query.addressId`<br>
+成功时跳转到订单成功页面`this.$router.push({path:'/orderSuccess?orderId='+res.result.orderId})`
+
+```javascript
+// 点击支付按钮
+payMent(){   // 点击支付
+
+    // 从路由那里获取到订单地址的id
+    // http://localhost:8080/#/orderConfirm?addressId=100001
+    var addressId = this.$route.query.addressId;
+        
+    axios.post('/users/payMent',{
+      addressId:addressId,
+      orderTotal:this.orderTotal
+    }).then((response)=>{
+      let res = response.data;
+      if(res.status == '0'){
+        console.log('order created success');
+
+        // 路由跳转到订单成功页面
+        this.$router.push({
+          path:'/orderSuccess?orderId='+res.result.orderId
+        })
+      }
+    })
+}
+
+```
+点击支付按钮，请求成功，返回生成的订单Id(orderId)和订单总金额(orderTotal)。订单Id=6221201801252245492,622=平台架构码/1=随机数r1/20180125224549=年月日时分秒/2=随机数r2<br>
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/13/2.jpg?raw=true) <br>
+
+跳转到订单成功页面<br>
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/13/3.jpg?raw=true) <br>
+
+订单生成存储到了数据库<br>
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/13/4.jpg?raw=true)
+
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/13/5.jpg?raw=true)
 
 
 
