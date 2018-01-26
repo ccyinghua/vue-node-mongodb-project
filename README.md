@@ -61,6 +61,7 @@ cnpm install vue-lazyload --save   // 图片加载
         | - Cart.vue         -- 购物车列表组件
         | - Address.vue      -- 地址列表页组件
         | - OrderConfirm.vue -- 订单确认页面
+        | - OrderSuccess.vue -- 订单成功页面
     | - App.vue
     | - main.js
 | - static   -- 项目所用图片，图标
@@ -86,7 +87,7 @@ cnpm install vue-lazyload --save   // 图片加载
 <br>
 [08-address.md - 地址模块实现(地址列表渲染/地址切换和展开/设置默认地址/地址删除功能实现)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/08-address.md)
 <br>
-[09-orderConfirm.md - 订单模块实现(订单列表渲染/创建订单功能)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/09-orderConfirm.md)
+[09-orderConfirm.md - 订单模块实现(订单列表渲染/创建订单功能/订单成功页面)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/09-orderConfirm.md)
 
 
 未完待续......

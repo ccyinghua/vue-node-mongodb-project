@@ -294,6 +294,124 @@ payMent(){   // 点击支付
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/13/5.jpg?raw=true)
 
 
+### 三、订单成功页面
+
+新建订单成功页面组件src/views/orderSuccess.vue,添加页面路由
+
+src/router/index.js
+
+```javascript
+import OrderSuccess from '@/views/OrderSuccess'  //  订单成功页面
+
+export default new Router({
+  routes: [
+    {
+      path: '/orderSuccess',   // 订单成功頁面
+      name: 'OrderSuccess',
+      component: OrderSuccess
+    }
+  ]
+})
+
+```
+后端接口server/routes/users.js,根据前端传的订单Id查询订单信息
+
+```javascript
+//根据订单Id查询订单信息
+router.get("/orderDetail", function (req,res,next) {
+    var userId = req.cookies.userId,
+        orderId = req.param("orderId");   // 前端传过来的订单id
+    User.findOne({userId:userId}, function (err,userInfo) {
+        if(err){
+            res.json({
+                status:'1',
+                msg:err.message,
+                result:''
+            });
+        }else{
+            var orderList = userInfo.orderList;  // orderList订单列表
+            if(orderList.length>0){  // 说明有订单
+                var orderTotal = 0;
+                // 遍历订单列表，根据订单id得到该订单总金额orderTotal
+                orderList.forEach((item)=>{
+                    if(item.orderId == orderId){
+                        orderTotal = item.orderTotal;
+                    }
+                });
+                if(orderTotal>0){
+                    res.json({
+                        status:'0',
+                        msg:'',
+                        result:{
+                            orderId:orderId,
+                            orderTotal:orderTotal
+                        }
+                    })
+                }else{
+                    res.json({
+                        status:'120002',
+                        msg:'无此订单',
+                        result:''
+                    });
+                }
+            }else{
+                res.json({
+                    status:'120001',
+                    msg:'当前用户未创建订单',
+                    result:''
+                });
+            }
+        }
+    })
+});
+
+```
+前端页面初始化时get请求，传参订单id,返回订单的总金额渲染页面。订单的id从路由获取，http://localhost:8080/#/orderSuccess?orderId=6221201801252245492 中的orderId：`this.$route.query.orderId`
+
+```html
+<p>
+    <span>Order ID：{{orderId}}</span>
+    <span>Order total：{{orderTotal|currency('$')}}</span>
+</p>
+
+```
+
+```javascript
+export default {
+    data(){
+      return {
+        orderId:'',  // 订单id
+        orderTotal:0  // 订单总金额
+      }
+    },
+    mounted(){
+      // 从路由那里获取到订单id
+      // http://localhost:8080/#/orderSuccess?orderId=6221201801252245492
+      var orderId = this.$route.query.orderId;
+      console.log("orderId:"+orderId);
+
+      if(!orderId){
+        return;
+      }
+      axios.get("/users/orderDetail",{
+        params:{
+          orderId:orderId
+        }
+      }).then((response)=>{
+        let res = response.data;
+        if(res.status == '0'){
+          this.orderId = orderId;
+          this.orderTotal = res.result.orderTotal;
+        }
+      })
+    },
+    filters:{   // 定义局部过滤器
+      currency:currency  // currency.js传过来的本就是函数
+    }
+}
+
+```
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/14/1.jpg?raw=true)
 
 
 
