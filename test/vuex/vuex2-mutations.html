@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vuex-Mutations</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <script src="../../node_modules/vuex/dist/vuex.min.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <h2>msg: {{msg}}</h2>
+        <a href="javascript:;" @click="add">点击</a>
+        <counter></counter>
+    </div>
+<script>
+    // 定义子组件
+    const counter = {
+        template:`
+            <div>
+                <div>点击数量: {{ count }}</div>
+                <div>用户名: {{ name }}</div>
+            </div>
+        `,
+        computed:{
+            count(){
+                return this.$store.state.count;
+            },
+            name(){
+                return this.$store.state.name;
+            }
+        }
+    }
+    // 创建store实例
+    const store = new Vuex.Store({
+        state:{
+            count:0,
+            name:'Jack'
+        },
+        mutations:{   // 改变状态的唯一方法,但也要提交才有用
+            increment(state){
+                state.count++;
+            },
+            updateName(state,userName){  // 也可接受第二个参数
+                state.name = userName;
+            }
+        }
+    })
+
+    new Vue({
+        el:"#app",
+        store,   // 使用store；等价于store:store
+        data:{
+            msg:'Vuex的使用'
+        },
+        components:{
+            counter
+        },
+        methods:{
+            add(){
+                this.$store.commit('increment');  // 提交increment事件类型来触发mutations,实现count++
+                this.$store.commit('updateName','Tom'); // 用户名变成Tom
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vuex-state</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <script src="../../node_modules/vuex/dist/vuex.min.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <h2>msg: {{msg}}</h2>
+        <counter></counter>
+    </div>
+<script>
+    // 定义子组件
+    const counter = {
+        template:`
+            <div>count: {{ count }}</div>
+        `,
+        computed:{
+            count(){
+                return this.$store.state.count;
+            }
+        }
+    }
+    // 创建store实例
+    const store = new Vuex.Store({
+        state:{
+            count:0
+        }
+    })
+
+    new Vue({
+        el:"#app",
+        store,  // 使用store；等价于store:store
+        data:{
+            msg:'Vuex的使用'
+        },
+        components:{
+            counter
+        }
+    });
+</script>
+</body>
+</html>

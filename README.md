@@ -32,6 +32,8 @@ cnpm install vue-lazyload --save   // 图片加载
 
 * cnpm install vue-infinite-scroll --save  // 安装滚动加载插件  04-pagingAndSort.md
 
+* cnpm install vuex --save  // 安装vuex  10-vuex.md
+
 ```
 > 文件夹列表
 
@@ -65,7 +67,7 @@ cnpm install vue-lazyload --save   // 图片加载
     | - App.vue
     | - main.js
 | - static   -- 项目所用图片，图标
-| - test     -- vue-resource,axios,ES6,ES6-promise基础用法
+| - test     -- vue-resource,axios,vuex,ES6,ES6-promise基础用法
 
 ```
 
@@ -88,7 +90,8 @@ cnpm install vue-lazyload --save   // 图片加载
 [08-address.md - 地址模块实现(地址列表渲染/地址切换和展开/设置默认地址/地址删除功能实现)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/08-address.md)
 <br>
 [09-orderConfirm.md - 订单模块实现(订单列表渲染/创建订单功能/订单成功页面)](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/09-orderConfirm.md)
-
+<br>
+[10-vuex.md - 基于Vuex改造登录和购物车数量功能](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/10-vuex.md)
 
 未完待续......
 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vuex-Getters</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <script src="../../node_modules/vuex/dist/vuex.min.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <h2>msg: {{msg}}</h2>
+        <a href="javascript:;" @click="add">点击</a>
+        <counter></counter>
+    </div>
+<script>
+    // 定义子组件
+    const counter = {
+        template:`
+            <div>
+                <div>点击数量: {{ count }}</div>
+                <div>用户名: {{ name }}</div>
+                <div>用户名二次处理: {{ userName }}</div>
+            </div>
+        `,
+        computed:{
+            count(){
+                return this.$store.state.count;
+            },
+            name(){
+                return this.$store.state.name;
+            },
+            userName(){
+                return this.$store.getters.userName;
+            }
+        }
+    }
+    // 创建store实例
+    const store = new Vuex.Store({
+        state:{
+            count:0,
+            name:'Jack'
+        },
+        getters:{  // 被认为是store的计算属性，对state数据进行二次处理,从而被其他地方进行调用
+            userName(state){
+                return state.name + ',Hello';
+            }
+        },
+        mutations:{   // 改变状态的唯一方法,但也要提交才有用
+            increment(state){
+                state.count++;
+            },
+            updateName(state,name2){  // 也可接受第二个参数
+                state.name = name2;
+            }
+        },
+        actions:{  // 提交mutations
+            incrementAction(context){  // 提交increment，代替method的add点击事件中的this.$store.commit('increment');
+                context.commit('increment');
+            },
+            updateNameAction(context,name2){  // 提交updateName
+                context.commit('updateName',name2);
+            }
+        }
+    })
+
+    new Vue({
+        el:"#app",
+        store,   // 使用store；等价于store:store
+        data:{
+            msg:'Vuex的使用'
+        },
+        components:{
+            counter
+        },
+        methods:{
+            add(){
+                // this.$store.commit('increment');  // 提交increment事件类型来触发mutations,实现count++
+                // this.$store.commit('updateName','Tom'); // 用户名变成Tom
+
+                this.$store.dispatch('incrementAction');
+                this.$store.dispatch('updateNameAction','Tom');
+            }
+        }
+    });
+</script>
+</body>
+</html>
