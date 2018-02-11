@@ -60,7 +60,7 @@
                   </div>
                   <div class="cart-tab-5">
                     <div class="cart-item-opration">
-                      <a href="javascript:;" class="item-edit-btn" @click="delCartConfirm(item.productId)">
+                      <a href="javascript:;" class="item-edit-btn" @click="delCartConfirm(item)">
                         <svg class="icon icon-del">
                           <use xlink:href="#icon-del"></use>
                         </svg>
@@ -159,7 +159,7 @@ export default {
     data(){
         return {
           cartList:[],  // 购物车商品列表
-          productId:'',
+          delItem:{},  // 要删除的商品
           modalConfirm:false   // 模态框是否显示
           // checkAllFlag:false   // 控制全选
         }
@@ -204,8 +204,8 @@ export default {
           this.cartList = res.result;
         })
       },
-      delCartConfirm(productId){   // 点击删除图标
-        this.productId = productId;
+      delCartConfirm(item){   // 点击删除图标
+        this.delItem = item;
         this.modalConfirm = true;  // 模态框显示
       },
       closeModal(){   // 关闭模态框
@@ -213,12 +213,16 @@ export default {
       },
       delCart(){   // 确认删除此商品
         axios.post('/users/cartDel',{
-          productId:this.productId
+          productId:this.delItem.productId
         }).then((response) => {
           let res = response.data;
           if(res.status = '0'){
             this.modalConfirm = false;  // 关闭模态框
             this.init();  // 重新初始化购物车数据
+
+            // 右上角购物车数量更新
+            var delCount = this.delItem.productNum;
+            this.$store.commit("updateCartCount",-delCount);
           }
         })
       },
@@ -239,6 +243,15 @@ export default {
           checked:item.checked
         }).then((response)=>{
           let res = response.data;
+
+          // 右上角购物车数量更新
+          let num = 0;
+          if(flag == 'add'){ //点加号
+            num = 1
+          }else if(flag == 'minu'){  //点减号
+            num = -1;
+          }
+          this.$store.commit("updateCartCount",num);
         })
       },
       // toggleCheckAll(){    // 全选和取消全选

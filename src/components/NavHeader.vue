@@ -65,6 +65,7 @@
 <script type="text/ecmascript-6">
 import './../assets/css/login.css'
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   data(){
     return {
@@ -76,12 +77,13 @@ export default {
     }
   },
   computed:{
-    nickName(){
+    ...mapState(['nickName','cartCount'])
+    /*nickName(){
       return this.$store.state.nickName;
     },
     cartCount(){
       return this.$store.state.cartCount;
-    }
+    }*/
   },
   mounted(){
     this.checkLogin();
@@ -135,7 +137,7 @@ export default {
     getCartCount(){  // 查询购物车商品数量
       axios.get("/users/getCartCount").then(res=>{
         var res = res.data;
-        this.$store.commit("updateCartCount",res.result);
+        this.$store.commit("initCartCount",res.result);
       });
     }
   }

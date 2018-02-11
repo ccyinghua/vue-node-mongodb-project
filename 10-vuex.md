@@ -32,10 +32,13 @@ const store = new Vuex.Store({
   mutations: {  // 更改状态
     //更新用户信息
     updateUserInfo(state, nickName) {
-      state.nickName = nickName;
+        state.nickName = nickName;
     },
     updateCartCount(state,cartCount){
-      state.cartCount += cartCount;
+        state.cartCount += cartCount;
+    },
+    initCartCount(state,cartCount){
+        state.cartCount = cartCount;
     }
   }
 });
@@ -163,7 +166,7 @@ export default {
     getCartCount(){  // 查询购物车商品数量
       axios.get("/users/getCartCount").then(res=>{
         var res = res.data;
-        this.$store.commit("updateCartCount",res.result);
+        this.$store.commit("initCartCount",res.result);
       });
     }
   }
@@ -171,5 +174,82 @@ export default {
 
 ```
 ![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/15/2.jpg?raw=true)
+
+也可使用`mapState辅助函数`简写。
+
+```javascript
+
+import { mapState } from 'vuex'
+computed:{
+    ...mapState(['nickName','cartCount']) // 这里的...
+    /*nickName(){
+      return this.$store.state.nickName;
+    },
+    cartCount(){
+      return this.$store.state.cartCount;
+    }*/
+}
+
+```
+
+> ###### 商品列表页点击加入购物车；购物车列表页点击删除商品；添加商品减少商品；--购物车商品数量的变化
+
+src/views/GoodsList.vue
+
+```javascript
+export default {
+    methods:{
+        addCart(productId){  // 点击加入购物车
+            ......
+            // 购物车数量加1
+            this.$store.commit('updateCartCount',1);
+            ......
+          })
+        },
+    }
+}
+
+```
+src/views/Cart.vue
+
+```javascript
+export default {
+    methods:{
+        delCart(){   // 确认删除此商品
+            axios.post('/users/cartDel',...
+                // 右上角购物车数量更新
+                var delCount = this.delItem.productNum;
+                this.$store.commit("updateCartCount",-delCount);
+              }
+            })
+        },
+        editCart(flag,item){   // 商品加减和勾选
+            ......
+            axios.post('/users/cartEdit',...
+                // 右上角购物车数量更新
+                let num = 0;
+                if(flag == 'add'){ //点加号
+                    num = 1
+                }else if(flag == 'minu'){  //点减号
+                    num = -1;
+                }
+                this.$store.commit("updateCartCount",num);
+            })
+        }
+    }
+}
+
+```
+![image](https://github.com/ccyinghua/vue-node-mongodb-project/blob/master/resource/readme/15/3.jpg?raw=true)
+
+
+
+
+
+
+
+
+
+
 
 
