@@ -181,7 +181,7 @@ export default {
 
 import { mapState } from 'vuex'
 computed:{
-    ...mapState(['nickName','cartCount']) // 这里的...
+    ...mapState(['nickName','cartCount']) // 这里的...是ES6语法
     /*nickName(){
       return this.$store.state.nickName;
     },
