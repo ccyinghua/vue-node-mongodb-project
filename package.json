@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "ejs": "^2.5.7",
-    "mongoose": "^4.13.4",
+    "mongoose": "^5.7.7",
     "vue": "^2.4.2",
     "vue-infinite-scroll": "^2.0.2",
     "vue-lazyload": "^1.1.3",
